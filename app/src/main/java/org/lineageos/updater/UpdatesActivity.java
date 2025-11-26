@@ -670,7 +670,7 @@ public class UpdatesActivity extends UpdatesListActivity implements UpdateImport
 
     private void maybeShowWelcomeMessage() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean alreadySeen = preferences.getBoolean(Constants.HAS_SEEN_WELCOME_MESSAGE, false);
+        boolean alreadySeen = preferences.getBoolean(Constants.HAS_SEEN_WELCOME_MESSAGE, true);
         if (alreadySeen) {
             return;
         }
