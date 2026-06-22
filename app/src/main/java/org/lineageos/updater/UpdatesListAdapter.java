@@ -496,16 +496,10 @@ public class UpdatesListAdapter extends RecyclerView.Adapter<UpdatesListAdapter.
                 DateFormat.MEDIUM, update.getTimestamp());
         String buildInfoText = mActivity.getString(R.string.list_build_version_date,
                 update.getVersion(), buildDate);
-        return new AlertDialog.Builder(mActivity)
-                .setTitle(R.string.apply_update_dialog_title)
-                .setMessage(mActivity.getString(resId, buildInfoText,
-                        mActivity.getString(android.R.string.ok)))
-                .setPositiveButton(android.R.string.ok,
-                        (dialog, which) -> {
-                            Utils.triggerUpdate(mActivity, downloadId);
-                            maybeShowInfoDialog();
-                        })
-                .setNegativeButton(android.R.string.cancel, null);
+        // Skip the confirmation dialog for normal update installs.
+        Utils.triggerUpdate(mActivity, downloadId);
+        maybeShowInfoDialog();
+        return null;
     }
 
     private AlertDialog.Builder getCancelInstallationDialog() {
