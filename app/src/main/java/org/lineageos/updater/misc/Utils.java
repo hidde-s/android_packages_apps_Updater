@@ -25,6 +25,7 @@ import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkCapabilities;
+import android.net.Uri;
 import android.os.SystemProperties;
 import android.os.storage.StorageManager;
 import android.util.Log;
@@ -167,6 +168,19 @@ public class Utils {
                 SystemProperties.get(Constants.PROP_DEVICE));
         String type = SystemProperties.get(Constants.PROP_RELEASE_TYPE).toLowerCase(Locale.ROOT);
 
+        // Per-device serial number so the OTA server can track which builds each
+        // device pulls. The value is empty on emulators / unprovisioned units and
+        // may literally be "unknown"; in both cases we send an empty string so the
+        // check keeps working and the resulting URL stays valid.
+        String serial = SystemProperties.get(Constants.PROP_SERIAL_NO, "");
+        if (serial.equalsIgnoreCase("unknown")) {
+            serial = "";
+        }
+        serial = Uri.encode(serial);
+
+        // Build date (UTC epoch seconds) of the currently installed software.
+        String date = SystemProperties.get(Constants.PROP_BUILD_DATE, "");
+
         String serverUrl = SystemProperties.get(Constants.PROP_UPDATER_URI);
         if (serverUrl.trim().isEmpty()) {
             serverUrl = context.getString(R.string.updater_server_url);
@@ -174,7 +188,9 @@ public class Utils {
 
         return serverUrl.replace("{device}", device)
                 .replace("{type}", type)
-                .replace("{incr}", incrementalVersion);
+                .replace("{incr}", incrementalVersion)
+                .replace("{serial}", serial)
+                .replace("{date}", date);
     }
 
     public static String getUpgradeBlockedURL(Context context) {
