@@ -46,7 +46,6 @@ public final class Constants {
     public static final String PROP_DEVICE = "ro.lineage.device";
     public static final String PROP_NEXT_DEVICE = "ro.updater.next_device";
     public static final String PROP_RELEASE_TYPE = "ro.lineage.releasetype";
-    public static final String PROP_SERIAL_NO = "ro.boot.serialno";
     public static final String PROP_UPDATER_ALLOW_DOWNGRADING = "lineage.updater.allow_downgrading";
     public static final String PROP_UPDATER_URI = "lineage.updater.uri";
 
